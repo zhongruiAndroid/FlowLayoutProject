@@ -5,7 +5,7 @@
         <attr name="vGap" format="dimension"></attr>
         <attr name="hGap" format="dimension"></attr>
 
-        <attr name="android:gravity" format="enum">
+        <attr name="gravity" format="enum">
             <enum name="left" value="0"></enum>
             <enum name="center_horizontal" value="0.5"></enum>
             <enum name="right" value="1"></enum>
