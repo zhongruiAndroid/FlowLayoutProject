@@ -20,4 +20,15 @@ public class ExampleUnitTest {
         System.out.println(a/2);
         System.out.println(a/2f);
     }
+    @Test
+    public void asdf() {
+        while (true){
+            System.out.println("0000000000");
+            if(1==1){
+                break;
+            }
+            System.out.println("11111111111111");
+        }
+        System.out.println("222222222");
+    }
 }

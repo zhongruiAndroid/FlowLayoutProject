@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.support.annotation.IntDef;
+import android.support.v4.util.SparseArrayCompat;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.Pair;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +22,7 @@ import java.util.List;
  */
 public class FlowLayout extends ViewGroup {
     private List<Point> pointList = new ArrayList<>();
-//    private SparseArray<Point> offsetX = new SparseArray<>();
+    private List<Pair<Integer,Integer>> offsetX = new ArrayList<>();
 
     private int vGap;
     private int hGap;
@@ -61,7 +65,7 @@ public class FlowLayout extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         pointList.clear();
-//        offsetX.clear();
+        offsetX.clear();
 
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
@@ -75,6 +79,7 @@ public class FlowLayout extends ViewGroup {
         int horizontalWidth = 0;
         int verticalHeight = 0;
 
+        Pair<Integer, ArrayList> linesPair = Pair.create(horizontalWidth - getHGap(), new ArrayList());
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
@@ -92,8 +97,7 @@ public class FlowLayout extends ViewGroup {
 
             if (horizontalWidth + childViewMeasuredWidth > widthSize -getPaddingLeft()- getPaddingRight()) {
 
-                int temp = widthSize - getPaddingLeft() - getPaddingRight() - horizontalWidth;
-//                offsetX.put(i,new Point(temp,0));
+                offsetX.add(Pair.create(i,horizontalWidth - getHGap()));
 
                 resultWidth = Math.max(resultWidth, horizontalWidth);
                 //如果换行，从第下一行开始计算每行宽度
@@ -112,12 +116,13 @@ public class FlowLayout extends ViewGroup {
                 //如果不换行，计算每行最高view的高度
                 verticalHeight = Math.max(verticalHeight, childViewMeasuredHeight + getVGap());
             }
-
             if (i == (childCount - 1)) {
+                offsetX.add(Pair.create(i,horizontalWidth - getHGap()));
                 resultWidth = Math.max(resultWidth, horizontalWidth) - getHGap();
                 resultHeight = resultHeight + verticalHeight - getVGap();
             }
         }
+
         resultWidth = resultWidth + getPaddingLeft() + getPaddingRight();
         resultHeight = resultHeight + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(
@@ -129,7 +134,7 @@ public class FlowLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int childCount = getChildCount();
-        int beforeOffsetWidth=0;
+
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() == View.GONE) {
@@ -139,17 +144,10 @@ public class FlowLayout extends ViewGroup {
             int childWidth = childView.getMeasuredWidth();
             int childHeight = childView.getMeasuredHeight();
 
+            int beforeOffsetWidth=getOffsetWidth(i);
+
             Point point = pointList.get(i);
 
-
-            float offset=gravity/2f;
-            if (gravity<0||gravity>2){
-                offset=0;
-            }
-//            Point pointX = offsetX.get(i);
-//            if (pointX != null) {
-//                beforeOffsetWidth= (int) (pointX.x*offset);
-//            }
             childView.layout(
                     point.x + lp.leftMargin + getPaddingLeft()+beforeOffsetWidth,
                     point.y + lp.topMargin  + getPaddingTop(),
@@ -164,6 +162,47 @@ public class FlowLayout extends ViewGroup {
     @Override
     public MarginLayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
+    }
+
+    private int getOffsetWidth(int index){
+        //如果居左和居右就计算偏移量
+        float offset=gravity/2f;
+        if (gravity<0||gravity>2){
+            offset=0;
+        }
+        if(offset==gravity_left||offsetX==null||offsetX.size()==0){
+            return 0;
+        }
+        int offsetWidth=0;
+        int start=0;
+        int end=offsetX.size()-1;
+        while(true){
+            int middle=(start+end)/2;
+            Pair<Integer, Integer> pair = offsetX.get(middle);
+            if(middle==0&&index<=pair.first){
+                offsetWidth=offsetX.get(0).second;
+                break;
+            }
+            if(offsetX.get(offsetX.size()-1).first<=index){
+                offsetWidth=offsetX.get(offsetX.size()-1).second;
+                break;
+            }
+            if(middle==0&&index>pair.first){
+                start=middle+1;
+                continue;
+            }
+            Log.i("=====","====="+index);
+            Pair<Integer, Integer> before = offsetX.get(middle-1);
+            if(index>=pair.first){
+                start=middle+1;
+            }else if(index<before.first){
+                end=middle-1;
+            }else{
+                offsetWidth=pair.second;
+                break;
+            }
+        }
+        return (int) ((getMeasuredWidth()-getPaddingLeft()-getPaddingRight()-offsetWidth)*offset);
     }
 
     public void setBothGap(int bothGap) {
