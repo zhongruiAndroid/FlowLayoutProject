@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.support.annotation.IntDef;
-import android.support.v4.util.SparseArrayCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
