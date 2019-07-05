@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class FlowLayout extends ViewGroup {
             if (childView.getVisibility() == View.GONE) {
                 continue;
             }
-            MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
+            LayoutParams lp = (LayoutParams) childView.getLayoutParams();
             int childWidthMeasureSpec = getChildMeasureSpec(widthSize, lp.leftMargin + lp.rightMargin, lp.width);
             int childHeightMeasureSpec = getChildMeasureSpec(heightSize, lp.topMargin + lp.bottomMargin, lp.height);
 
@@ -137,7 +138,7 @@ public class FlowLayout extends ViewGroup {
             if (childView.getVisibility() == View.GONE) {
                 continue;
             }
-            MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
+            LayoutParams lp = (LayoutParams) childView.getLayoutParams();
             int childWidth = childView.getMeasuredWidth();
             int childHeight = childView.getMeasuredHeight();
 
@@ -156,10 +157,7 @@ public class FlowLayout extends ViewGroup {
         }
     }
 
-    @Override
-    public MarginLayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new MarginLayoutParams(getContext(), attrs);
-    }
+
 
     private int getOffsetWidth(int index){
         //如果居左和居右就计算偏移量
@@ -253,5 +251,42 @@ public class FlowLayout extends ViewGroup {
             requestLayout();
         }
         return this;
+    }
+
+    @Override
+    public FlowLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new FlowLayout.LayoutParams(getContext(), attrs);
+    }
+    @Override
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        return p instanceof FlowLayout.LayoutParams;
+    }
+
+    @Override
+    protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams lp) {
+        if (lp instanceof FlowLayout.LayoutParams) {
+            return new FlowLayout.LayoutParams((FlowLayout.LayoutParams) lp);
+        } else if (lp instanceof MarginLayoutParams) {
+            return new FlowLayout.LayoutParams((MarginLayoutParams) lp);
+        }
+        return new FlowLayout.LayoutParams(lp);
+    }
+
+    public static class LayoutParams extends MarginLayoutParams {
+        public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
+            super(c, attrs);
+        }
+        public LayoutParams(int width, int height) {
+            super(width, height);
+        }
+        public LayoutParams(@NonNull ViewGroup.LayoutParams source) {
+            super(source);
+        }
+        public LayoutParams(@NonNull ViewGroup.MarginLayoutParams source) {
+            super(source);
+        }
+        public LayoutParams(@NonNull FlowLayout.LayoutParams source) {
+            super(source);
+        }
     }
 }

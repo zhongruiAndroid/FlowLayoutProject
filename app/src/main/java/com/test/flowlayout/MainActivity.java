@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.github.flowlayout.FlowLayout;
 
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         flView = findViewById(R.id.flView);
         initView();
-
+//        TextView textView = new TextView(this);
+//        textView.setText("TextView");
+//        flView.addView(textView);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
