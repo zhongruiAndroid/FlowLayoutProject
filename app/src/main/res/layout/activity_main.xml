@@ -22,59 +22,107 @@
         android:layout_height="wrap_content"
         app:hGap="5dp"
         app:vGap="5dp"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        app:gravity="center_horizontal"
+        android:paddingBottom="15dp"
+        app:gravity="right"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android1"
+            android:text="and"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android2"
+            android:text="123124"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android3"
+            android:text="123"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android4"
+            android:text="1234"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android5"
+            android:text="12345"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android6"
+            android:text="123456"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android7"
+            android:text="1234567"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@color/colorAccent"
-            android:text="android8"
+            android:text="12345678"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="and"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="123124"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="123"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="1234"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="12345"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="123456"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="1234567"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent"
+            android:text="12345678"
             />
     </com.github.flowlayout.FlowLayout>
 

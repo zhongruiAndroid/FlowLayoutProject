@@ -97,7 +97,7 @@ public class FlowLayout extends ViewGroup {
 
             if (horizontalWidth + childViewMeasuredWidth > widthSize -getPaddingLeft()- getPaddingRight()) {
 
-                offsetX.add(Pair.create(i,horizontalWidth - getHGap()));
+                offsetX.add(Pair.create(i-1,horizontalWidth - getHGap()));
 
                 resultWidth = Math.max(resultWidth, horizontalWidth);
                 //如果换行，从第下一行开始计算每行宽度
@@ -168,7 +168,7 @@ public class FlowLayout extends ViewGroup {
         //如果居左和居右就计算偏移量
         float offset=gravity/2f;
         if (gravity<0||gravity>2){
-            offset=0;
+            offset=gravity_left;
         }
         if(offset==gravity_left||offsetX==null||offsetX.size()==0){
             return 0;
@@ -178,24 +178,27 @@ public class FlowLayout extends ViewGroup {
         int end=offsetX.size()-1;
         while(true){
             int middle=(start+end)/2;
-            Pair<Integer, Integer> pair = offsetX.get(middle);
-            if(middle==0&&index<=pair.first){
+            //如果是第0下标
+            if(middle==0&&index<=offsetX.get(0).first){
                 offsetWidth=offsetX.get(0).second;
                 break;
             }
-            if(offsetX.get(offsetX.size()-1).first<=index){
-                offsetWidth=offsetX.get(offsetX.size()-1).second;
+            //如果是最后一个下标
+            int lastIndex = offsetX.size() - 1;
+            if(offsetX.get(lastIndex).first<index){
+                offsetWidth=offsetX.get(lastIndex).second;
                 break;
             }
-            if(middle==0&&index>pair.first){
+
+            //如果是中间下标
+            Pair<Integer, Integer> pair = offsetX.get(middle);
+
+            if(index>pair.first){
                 start=middle+1;
                 continue;
             }
-            Log.i("=====","====="+index);
             Pair<Integer, Integer> before = offsetX.get(middle-1);
-            if(index>=pair.first){
-                start=middle+1;
-            }else if(index<before.first){
+            if(index<=before.first){
                 end=middle-1;
             }else{
                 offsetWidth=pair.second;
@@ -218,7 +221,10 @@ public class FlowLayout extends ViewGroup {
         if (vGap < 0) {
             vGap = 0;
         }
-        this.vGap = vGap;
+        if(this.vGap!=vGap){
+            this.vGap = vGap;
+            requestLayout();
+        }
         return this;
     }
 
@@ -230,7 +236,10 @@ public class FlowLayout extends ViewGroup {
         if (hGap < 0) {
             hGap = 0;
         }
-        this.hGap = hGap;
+        if(this.hGap != hGap){
+            this.hGap = hGap;
+            requestLayout();
+        }
         return this;
     }
 
@@ -238,10 +247,14 @@ public class FlowLayout extends ViewGroup {
         return gravity;
     }
 
-    public void setGravity(@gravity_type int gravity) {
+    public FlowLayout setGravity(@gravity_type int gravity) {
         if(gravity!=gravity_left&&gravity!=gravity_center_horizontal&&gravity!=gravity_right){
             gravity=gravity_left;
         }
-        this.gravity = gravity;
+        if(this.gravity != gravity){
+            this.gravity = gravity;
+            requestLayout();
+        }
+        return this;
     }
 }
