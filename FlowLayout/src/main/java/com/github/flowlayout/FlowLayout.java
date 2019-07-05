@@ -32,7 +32,7 @@ public class FlowLayout extends ViewGroup {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({gravity_left,gravity_center_horizontal,gravity_right})
-    public @interface gravity_type{}
+    private  @interface gravity_type{}
     private int gravity=gravity_left;
 
     public FlowLayout(Context context) {
@@ -79,7 +79,6 @@ public class FlowLayout extends ViewGroup {
         int horizontalWidth = 0;
         int verticalHeight = 0;
 
-        Pair<Integer, ArrayList> linesPair = Pair.create(horizontalWidth - getHGap(), new ArrayList());
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);

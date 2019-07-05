@@ -8,122 +8,278 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.github.flowlayout.FlowLayout
+        android:id="@+id/flView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hGap="5dp"
-        app:vGap="5dp"
-        android:paddingTop="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="15dp"
-        app:gravity="right"
+        android:layout_margin="10dp"
+        android:background="#D9DEDF"
+        app:gravity="left"
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="and"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="android"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123124"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="ios"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="java"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="1234"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="php"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="12345"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="swift"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123456"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="python"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="1234567"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="C#"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="12345678"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="C++"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text=".Net"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="and"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="SQLServer"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123124"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="Oracle"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="android studio"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="1234"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="eclipse"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="12345"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="ide"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="123456"
+            android:layout_height="24dp"
+            android:background="@drawable/viewbg"
+            android:text="sublime"
+            android:gravity="center"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="1234567"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent"
-            android:text="12345678"
-            />
+
     </com.github.flowlayout.FlowLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="水平间距"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbHGap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="垂直间距"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbVGap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            />
+    </LinearLayout>
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <RadioButton
+            android:id="@+id/rbLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="left"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/rbRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="right"
+            />
+        <RadioButton
+            android:id="@+id/rbCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center_horizontal"
+            />
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="容器paddingLeft"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="容器paddingTop"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="容器paddingRight"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="容器paddingBottom"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            />
+    </LinearLayout>
 </LinearLayout>
