@@ -1,4 +1,4 @@
-package com.github.flowlayout;
+package com.github.flowview;
 
 import org.junit.Test;
 

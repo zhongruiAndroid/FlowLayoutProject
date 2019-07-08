@@ -1,4 +1,4 @@
-package com.github.flowlayout;
+package com.github.flowview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
