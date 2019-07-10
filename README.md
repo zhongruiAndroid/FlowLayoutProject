@@ -13,7 +13,7 @@
 
 
 ```xml
-<com.github.flowlayout.FlowLayout
+<com.github.flowview.FlowLayout
         android:id="@+id/flView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         app:hGap="10dp"
         >
          <!--yourview-->
-</com.github.flowlayout.FlowLayout>
+</com.github.flowview.FlowLayout>
 ```
 
 <br/>
