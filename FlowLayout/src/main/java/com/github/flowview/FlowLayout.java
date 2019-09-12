@@ -20,6 +20,7 @@ import java.util.List;
  *   created by zhongrui on 2019/5/27
  */
 public class FlowLayout extends ViewGroup {
+    //记录view布局位置的left和top坐标
     private List<Point> pointList = new ArrayList<>();
     private List<Pair<Integer,Integer>> offsetX = new ArrayList<>();
 
@@ -79,6 +80,8 @@ public class FlowLayout extends ViewGroup {
         int verticalHeight = 0;
 
         int childCount = getChildCount();
+
+        int lineWidth=widthSize -getPaddingLeft()- getPaddingRight();
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() == View.GONE) {
@@ -90,10 +93,12 @@ public class FlowLayout extends ViewGroup {
 
             childView.measure(childWidthMeasureSpec, childHeightMeasureSpec);
 
+            //每个子view所占的宽度
             int childViewMeasuredWidth = childView.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
+            //每个子view所占的高度
             int childViewMeasuredHeight = childView.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
 
-            if (horizontalWidth + childViewMeasuredWidth > widthSize -getPaddingLeft()- getPaddingRight()) {
+            if (horizontalWidth + childViewMeasuredWidth > lineWidth) {
 
                 offsetX.add(Pair.create(i-1,horizontalWidth - getHGap()));
 
@@ -149,8 +154,8 @@ public class FlowLayout extends ViewGroup {
             childView.layout(
                     point.x + lp.leftMargin + getPaddingLeft()+beforeOffsetWidth,
                     point.y + lp.topMargin  + getPaddingTop(),
-                    point.x + lp.leftMargin + childWidth + getPaddingLeft()+beforeOffsetWidth,
-                    point.y + lp.topMargin  + childHeight + getPaddingTop());
+                    point.x + lp.leftMargin + getPaddingLeft()+beforeOffsetWidth+ childWidth ,
+                    point.y + lp.topMargin  + getPaddingTop()+ childHeight);
 
 
 
