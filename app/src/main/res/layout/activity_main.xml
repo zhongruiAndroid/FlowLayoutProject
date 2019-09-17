@@ -94,7 +94,6 @@
             android:background="@drawable/viewbg"
             android:text="Oracle"
             android:gravity="center"
-            app:layout_new_line="true"
             />
         <TextView
             android:layout_width="wrap_content"

@@ -6,7 +6,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -343,12 +342,12 @@ public class FlowLayout extends ViewGroup {
 
         public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
             super(c, attrs);
-            TypedArray array = c.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
-            layout_new_line =array.getBoolean(R.styleable.FlowLayout_LayoutParams_layout_new_line, false);
-            layout_left_gap = (int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_left_gap, 0);
-            layout_right_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_right_gap, 0);
-            layout_top_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_top_gap, 0);
-            layout_bottom_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_bottom_gap, 0);
+            TypedArray array = c.obtainStyledAttributes(attrs, R.styleable.FlowLayout_Layout);
+            layout_new_line =array.getBoolean(R.styleable.FlowLayout_Layout_layout_new_line, false);
+            layout_left_gap = (int) array.getDimension(R.styleable.FlowLayout_Layout_layout_left_gap, 0);
+            layout_right_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_right_gap, 0);
+            layout_top_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_top_gap, 0);
+            layout_bottom_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_bottom_gap, 0);
 
             array.recycle();
         }

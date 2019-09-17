@@ -17,7 +17,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="FlowLayout_LayoutParams">
+    <declare-styleable name="FlowLayout_Layout">
         <attr name="layout_new_line" format="boolean"/>
         <attr name="layout_left_gap" format="dimension"/>
         <attr name="layout_right_gap" format="dimension"/>
