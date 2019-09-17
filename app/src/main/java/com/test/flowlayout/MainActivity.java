@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
 import com.github.flowview.FlowLayout;
+import com.github.flowview.FlowLayout;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 

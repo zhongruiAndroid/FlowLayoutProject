@@ -20,7 +20,7 @@ import java.util.List;
 /***
  *   created by zhongrui on 2019/5/27
  */
-public class FlowLayout extends ViewGroup {
+public class FlowLayoutNew extends ViewGroup {
     private List<List<View>>lineView=new ArrayList<>();
 
     //每行第一个view的left坐标
@@ -40,17 +40,17 @@ public class FlowLayout extends ViewGroup {
     private  @interface gravity_type{}
     private int gravity=gravity_left;
 
-    public FlowLayout(Context context) {
+    public FlowLayoutNew(Context context) {
         super(context);
         init(null);
     }
 
-    public FlowLayout(Context context, AttributeSet attrs) {
+    public FlowLayoutNew(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FlowLayoutNew(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -251,7 +251,7 @@ public class FlowLayout extends ViewGroup {
         return vGap;
     }
 
-    public FlowLayout setVGap(int vGap) {
+    public FlowLayoutNew setVGap(int vGap) {
         if (vGap < 0) {
             vGap = 0;
         }
@@ -266,7 +266,7 @@ public class FlowLayout extends ViewGroup {
         return hGap;
     }
 
-    public FlowLayout setHGap(int hGap) {
+    public FlowLayoutNew setHGap(int hGap) {
         if (hGap < 0) {
             hGap = 0;
         }
@@ -281,7 +281,7 @@ public class FlowLayout extends ViewGroup {
         return gravity;
     }
 
-    public FlowLayout setGravity(@gravity_type int gravity) {
+    public FlowLayoutNew setGravity(@gravity_type int gravity) {
         if(gravity!=gravity_left&&gravity!=gravity_center_horizontal&&gravity!=gravity_right){
             gravity=gravity_left;
         }
@@ -293,22 +293,22 @@ public class FlowLayout extends ViewGroup {
     }
 
     @Override
-    public FlowLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new FlowLayout.LayoutParams(getContext(), attrs);
+    public FlowLayoutNew.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new FlowLayoutNew.LayoutParams(getContext(), attrs);
     }
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-        return p instanceof FlowLayout.LayoutParams;
+        return p instanceof FlowLayoutNew.LayoutParams;
     }
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams lp) {
-        if (lp instanceof FlowLayout.LayoutParams) {
-            return new FlowLayout.LayoutParams((FlowLayout.LayoutParams) lp);
+        if (lp instanceof FlowLayoutNew.LayoutParams) {
+            return new FlowLayoutNew.LayoutParams((FlowLayoutNew.LayoutParams) lp);
         } else if (lp instanceof MarginLayoutParams) {
-            return new FlowLayout.LayoutParams((MarginLayoutParams) lp);
+            return new FlowLayoutNew.LayoutParams((MarginLayoutParams) lp);
         }
-        return new FlowLayout.LayoutParams(lp);
+        return new FlowLayoutNew.LayoutParams(lp);
     }
 
     public static class LayoutParams extends MarginLayoutParams {
@@ -324,7 +324,7 @@ public class FlowLayout extends ViewGroup {
         public LayoutParams(@NonNull MarginLayoutParams source) {
             super(source);
         }
-        public LayoutParams(@NonNull FlowLayout.LayoutParams source) {
+        public LayoutParams(@NonNull FlowLayoutNew.LayoutParams source) {
             super(source);
         }
     }
