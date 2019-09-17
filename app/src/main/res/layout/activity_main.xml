@@ -94,6 +94,7 @@
             android:background="@drawable/viewbg"
             android:text="Oracle"
             android:gravity="center"
+            app:layout_new_line="true"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -192,6 +193,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="center_horizontal"
+            />
+    </RadioGroup>
+    <RadioGroup
+        android:id="@+id/rg2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <RadioButton
+            android:id="@+id/rbTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="top"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/rbBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bottom"
+            />
+        <RadioButton
+            android:id="@+id/rbCenterVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center_vertical"
             />
     </RadioGroup>
     <LinearLayout

@@ -2,13 +2,11 @@ package com.github.flowview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Point;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,13 +30,21 @@ public class FlowLayout extends ViewGroup {
     private int vGap;
     private int hGap;
     public static final int gravity_left=0;
-    public static final int gravity_center_horizontal=1;
+    public static final int gravity_center =1;
     public static final int gravity_right=2;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({gravity_left,gravity_center_horizontal,gravity_right})
+    @IntDef({gravity_left, gravity_center,gravity_right})
     private  @interface gravity_type{}
     private int gravity=gravity_left;
+
+
+    public static final int gravity_top=0;
+    public static final int gravity_bottom=2;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({gravity_top, gravity_center,gravity_bottom})
+    private  @interface gravity_type_vertical{}
+    private int gravityVertical=gravity_top;
 
     public FlowLayout(Context context) {
         super(context);
@@ -62,6 +68,7 @@ public class FlowLayout extends ViewGroup {
         vGap = (int) typedArray.getDimension(R.styleable.FlowLayout_vGap, bothGap);
         hGap = (int) typedArray.getDimension(R.styleable.FlowLayout_hGap, bothGap);
         gravity =typedArray.getInt(R.styleable.FlowLayout_gravity, gravity_left);
+        gravityVertical =typedArray.getInt(R.styleable.FlowLayout_gravity_vertical, gravity_top);
 
         typedArray.recycle();
     }
@@ -107,7 +114,7 @@ public class FlowLayout extends ViewGroup {
             int childViewMeasuredHeight = childView.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
 
             //换行
-            if (horizontalWidth + childViewMeasuredWidth > lineWidth) {
+            if (horizontalWidth + childViewMeasuredWidth > lineWidth||lp.layout_new_line) {
                 //记录每行的left距离
                 int left = (int) ((lineWidth - (horizontalWidth - getHGap()))*getHorizontalOffsetScale());
                 eachLineLeft.add(left);
@@ -147,7 +154,7 @@ public class FlowLayout extends ViewGroup {
 
         resultWidth  = resultWidth + getPaddingLeft() + getPaddingRight();
         resultHeight = resultHeight + getPaddingTop() + getPaddingBottom();
-        Log.i("=============","getPaddingTop()=="+getPaddingTop()+"===getPaddingBottom()=="+getPaddingBottom()+"============resultHeight="+resultHeight);
+
         setMeasuredDimension(
                 widthMode == MeasureSpec.EXACTLY ? widthSize : resultWidth,
                 heightMode == MeasureSpec.EXACTLY ? heightSize : resultHeight);
@@ -181,7 +188,7 @@ public class FlowLayout extends ViewGroup {
             //子view所占的高度
             int childViewMeasuredHeight = childView.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
 
-            if (horizontalWidth + childViewMeasuredWidth >lineWidth) {
+            if (horizontalWidth + childViewMeasuredWidth >lineWidth||lp.layout_new_line) {
                 //换行
                 lineView.add(eachLineView);
                 //如果换行，从第下一行开始计算每行宽度
@@ -210,6 +217,7 @@ public class FlowLayout extends ViewGroup {
         int lineCount=lineView.size();
         for (int i = 0; i < lineCount; i++) {
             leftLocation=eachLineLeft.get(i);
+            int lineMaxHeight=eachLineHeight.get(i);
             List<View> lineViews = lineView.get(i);
             int size = lineViews.size();
             for (int j = 0; j < size; j++) {
@@ -219,17 +227,17 @@ public class FlowLayout extends ViewGroup {
                 }
                 int childWidth=childView.getMeasuredWidth();
                 int childHeight=childView.getMeasuredHeight();
-
+                int topOffset= (int) ((lineMaxHeight-childHeight)*getVerticalOffsetScale());
                 LayoutParams lp = (LayoutParams) childView.getLayoutParams();
                 childView.layout(
                         mPaddingLeft+leftLocation+ + lp.leftMargin,
-                        mPaddingTop+topLocation + lp.topMargin,
+                        mPaddingTop+topLocation + lp.topMargin+topOffset,
                         mPaddingLeft+leftLocation+ + lp.leftMargin+ childWidth ,
-                        mPaddingTop+topLocation + lp.topMargin + childHeight);
+                        mPaddingTop+topLocation + lp.topMargin + childHeight+topOffset);
 
                 leftLocation+=childWidth+lp.leftMargin+lp.rightMargin+getHGap();
             }
-            topLocation+=eachLineHeight.get(i);
+            topLocation+=lineMaxHeight;
         }
 
 
@@ -240,7 +248,7 @@ public class FlowLayout extends ViewGroup {
         return getGravity()/2f;
     }
     private float getVerticalOffsetScale(){
-        return getGravity()/2f;
+        return getGravityVertical()/2f;
     }
     public void setBothGap(int bothGap) {
         setHGap(bothGap);
@@ -282,11 +290,26 @@ public class FlowLayout extends ViewGroup {
     }
 
     public FlowLayout setGravity(@gravity_type int gravity) {
-        if(gravity!=gravity_left&&gravity!=gravity_center_horizontal&&gravity!=gravity_right){
+        if(gravity!=gravity_left&&gravity!= gravity_center &&gravity!=gravity_right){
             gravity=gravity_left;
         }
         if(this.gravity != gravity){
             this.gravity = gravity;
+            requestLayout();
+        }
+        return this;
+    }
+
+    public int getGravityVertical() {
+        return gravityVertical;
+    }
+
+    public FlowLayout setGravityVertical(@gravity_type_vertical int gravityVertical) {
+        if(gravityVertical!=gravity_top&&gravityVertical!= gravity_center &&gravityVertical!=gravity_bottom){
+            gravityVertical=gravity_top;
+        }
+        if(this.gravityVertical != gravityVertical){
+            this.gravityVertical = gravityVertical;
             requestLayout();
         }
         return this;
@@ -312,8 +335,22 @@ public class FlowLayout extends ViewGroup {
     }
 
     public static class LayoutParams extends MarginLayoutParams {
+        public boolean layout_new_line =false;
+        public int layout_left_gap =0;
+        public int layout_right_gap =0;
+        public int layout_top_gap =0;
+        public int layout_bottom_gap =0;
+
         public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
             super(c, attrs);
+            TypedArray array = c.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
+            layout_new_line =array.getBoolean(R.styleable.FlowLayout_LayoutParams_layout_new_line, false);
+            layout_left_gap = (int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_left_gap, 0);
+            layout_right_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_right_gap, 0);
+            layout_top_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_top_gap, 0);
+            layout_bottom_gap =(int) array.getDimension(R.styleable.FlowLayout_LayoutParams_layout_bottom_gap, 0);
+
+            array.recycle();
         }
         public LayoutParams(int width, int height) {
             super(width, height);

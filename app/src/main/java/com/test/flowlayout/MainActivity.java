@@ -8,7 +8,6 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
 import com.github.flowview.FlowLayout;
-import com.github.flowview.FlowLayout;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -16,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private AppCompatSeekBar sbHGap;
     private AppCompatSeekBar sbVGap;
     private RadioGroup rg;
+    private RadioGroup rg2;
     private RadioButton rbLeft;
     private RadioButton rbRight;
     private RadioButton rbCenter;
@@ -46,7 +46,23 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                         flView.setGravity(FlowLayout.gravity_right);
                     break;
                     case R.id.rbCenter:
-                        flView.setGravity(FlowLayout.gravity_center_horizontal);
+                        flView.setGravity(FlowLayout.gravity_center);
+                    break;
+                }
+            }
+        });
+        rg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rbTop:
+                        flView.setGravityVertical(FlowLayout.gravity_top);
+                    break;
+                    case R.id.rbBottom:
+                        flView.setGravityVertical(FlowLayout.gravity_bottom);
+                    break;
+                    case R.id.rbCenterVertical:
+                        flView.setGravityVertical(FlowLayout.gravity_center);
                     break;
                 }
             }
@@ -72,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         sbHGap = findViewById(R.id.sbHGap);
         sbVGap = findViewById(R.id.sbVGap);
         rg = findViewById(R.id.rg);
+        rg2 = findViewById(R.id.rg2);
         rbLeft = findViewById(R.id.rbLeft);
         rbRight = findViewById(R.id.rbRight);
         rbCenter = findViewById(R.id.rbCenter);

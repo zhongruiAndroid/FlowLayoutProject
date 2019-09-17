@@ -7,13 +7,21 @@
 
         <attr name="gravity" format="enum">
             <enum name="left" value="0"></enum>
-            <enum name="center_horizontal" value="1"></enum>
+            <enum name="center" value="1"></enum>
             <enum name="right" value="2"></enum>
         </attr>
         <attr name="gravity_vertical" format="enum">
             <enum name="top" value="0"></enum>
-            <enum name="center_vertical" value="1"></enum>
+            <enum name="center" value="1"></enum>
             <enum name="bottom" value="2"></enum>
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_new_line" format="boolean"/>
+        <attr name="layout_left_gap" format="dimension"/>
+        <attr name="layout_right_gap" format="dimension"/>
+        <attr name="layout_top_gap" format="dimension"/>
+        <attr name="layout_bottom_gap" format="dimension"/>
     </declare-styleable>
 </resources>
