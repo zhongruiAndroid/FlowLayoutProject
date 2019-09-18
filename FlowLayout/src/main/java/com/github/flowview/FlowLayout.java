@@ -335,19 +335,19 @@ public class FlowLayout extends ViewGroup {
 
     public static class LayoutParams extends MarginLayoutParams {
         public boolean layout_new_line =false;
-        public int layout_left_gap =0;
-        public int layout_right_gap =0;
-        public int layout_top_gap =0;
-        public int layout_bottom_gap =0;
+//        public int layout_left_gap =0;
+//        public int layout_right_gap =0;
+//        public int layout_top_gap =0;
+//        public int layout_bottom_gap =0;
 
         public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
             super(c, attrs);
             TypedArray array = c.obtainStyledAttributes(attrs, R.styleable.FlowLayout_Layout);
             layout_new_line =array.getBoolean(R.styleable.FlowLayout_Layout_layout_new_line, false);
-            layout_left_gap = (int) array.getDimension(R.styleable.FlowLayout_Layout_layout_left_gap, 0);
-            layout_right_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_right_gap, 0);
-            layout_top_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_top_gap, 0);
-            layout_bottom_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_bottom_gap, 0);
+//            layout_left_gap = (int) array.getDimension(R.styleable.FlowLayout_Layout_layout_left_gap, 0);
+//            layout_right_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_right_gap, 0);
+//            layout_top_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_top_gap, 0);
+//            layout_bottom_gap =(int) array.getDimension(R.styleable.FlowLayout_Layout_layout_bottom_gap, 0);
 
             array.recycle();
         }
