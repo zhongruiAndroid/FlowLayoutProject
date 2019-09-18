@@ -226,7 +226,12 @@ public class FlowLayout extends ViewGroup {
                 }
                 int childWidth=childView.getMeasuredWidth();
                 int childHeight=childView.getMeasuredHeight();
-                int topOffset= (int) ((lineMaxHeight-childHeight)*getVerticalOffsetScale());
+
+                int topOffset=0;
+                //只有某行的view高度低于那行最大高度时才设置偏移
+                if(childHeight<lineMaxHeight-getVGap()){
+                    topOffset= (int) ((lineMaxHeight-getVGap()-childHeight)*getVerticalOffsetScale());
+                }
                 LayoutParams lp = (LayoutParams) childView.getLayoutParams();
                 childView.layout(
                         mPaddingLeft+leftLocation+ + lp.leftMargin,
