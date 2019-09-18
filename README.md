@@ -1,6 +1,5 @@
 
-
-![github](https://github.com/zhongruiAndroid/FlowLayoutProject/blob/master/screenshot/flowlayout.gif "github")  
+<img src="https://github.com/zhongruiAndroid/FlowLayoutProject/blob/master/screenshot/flowlayout.gif" alt="image"  width="auto" height="500">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/zhongruiAndroid/FlowLayoutProject/blob/master/screenshot/flowlayout2.gif" alt="image"  width="auto" height="500">  
 
 ## [Demo.apk下载](https://raw.githubusercontent.com/zhongruiAndroid/FlowLayoutProject/master/demo/demo.apk "apk文件")
 
