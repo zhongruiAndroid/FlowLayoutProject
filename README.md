@@ -8,9 +8,12 @@
 | bothGap | dimension | 设置水平和垂直间距                                                           |
 | vGap    | dimension | 设置垂直间距                                                                 |
 | hGap    | dimension | 设置水平间距                                                                 |
-| gravity |           | 子view水平排列方式<br/>left:水平居左<br/>right:水平居右<br/>center_horizontal:水平居中 |
+| gravity |           | 子view水平排列方式<br/>left:水平居左<br/>right:水平居右<br/>center:水平居中 |
+| gravity_vertical |           | 每行子view垂直排列方式<br/>top:垂直居上<br/>bottom:垂直居右<br/>center:垂直居下 |
 
-
+| layout_params属性    | 类型      | 说明                                                                         |
+|---------|-----------|------------------------------------------------------------------------------|
+| layout_new_line | boolean | 是否换行           |                            
 ```xml
 <com.github.flowview.FlowLayout
         android:id="@+id/flView"
@@ -24,6 +27,14 @@
         app:hGap="10dp"
         >
          <!--yourview-->
+         <TextView
+	         android:layout_width="wrap_content"
+	         android:layout_height="24dp"
+	         android:text="Android"
+	         android:gravity="center"
+		 <!--立即换行-->
+	         app:layout_new_line="true"
+         />
 </com.github.flowview.FlowLayout>
 ```
 
