@@ -15,6 +15,8 @@
             <enum name="center" value="1"></enum>
             <enum name="bottom" value="2"></enum>
         </attr>
+
+        <attr name="leftRightAlign" format="boolean"></attr>
     </declare-styleable>
 
     <declare-styleable name="FlowLayout_Layout">
