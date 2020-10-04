@@ -105,12 +105,13 @@ public class FlowLayout extends ViewGroup {
         int childCount = getChildCount();
 
         int lineWidth = widthSize - getPaddingLeft() - getPaddingRight();
+        int tempNum=1;
+        int tempLine=1;
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() == View.GONE) {
                 continue;
             }
-
             measureChildWithMargins(childView, widthSize, 0, heightSize, 0);
 
             LayoutParams lp = (LayoutParams) childView.getLayoutParams();
@@ -138,6 +139,12 @@ public class FlowLayout extends ViewGroup {
                 //换行后保存下一行的view高度
                 verticalHeight = childViewMeasuredHeight + getVGap();
 
+
+                //判断是否超过行数限制
+                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                    break;
+                }
+                tempLine+=1;
             } else {
                 //如果不换行，累加每行的view宽度以及view间隙
                 horizontalWidth = horizontalWidth + childViewMeasuredWidth + getHGap();
@@ -156,7 +163,30 @@ public class FlowLayout extends ViewGroup {
                 resultWidth = Math.max(resultWidth, horizontalWidth) - getHGap();
                 resultHeight = resultHeight + verticalHeight - getVGap();
 
+                //判断是否超过行数限制
+                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                    break;
+                }
+                tempLine+=1;
             }
+
+
+            if(getMaxNum()>0&&tempNum>=getMaxNum()){
+                /*因为有限制，所以需要提前结束并添加view*/
+                if(i != (childCount - 1)){
+                    //记录每行的left距离
+                    int left = (int) ((lineWidth - (horizontalWidth - getHGap())) * getHorizontalOffsetScale());
+                    eachLineLeft.add(left);
+                    //记录最后一行最大的view高度
+                    eachLineHeight.add(verticalHeight);
+
+                    //最后需要减去多余的一个间隙
+                    resultWidth = Math.max(resultWidth, horizontalWidth) - getHGap();
+                    resultHeight = resultHeight + verticalHeight - getVGap();
+                }
+                break;
+            }
+            tempNum+=1;
         }
 
         resultWidth = resultWidth + getPaddingLeft() + getPaddingRight();
@@ -183,6 +213,8 @@ public class FlowLayout extends ViewGroup {
 
         int childCount = getChildCount();
 
+        int tempNum=1;
+        int tempLine=1;
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() == View.GONE) {
@@ -205,6 +237,13 @@ public class FlowLayout extends ViewGroup {
                 verticalHeight = childViewMeasuredHeight + getVGap();
                 eachLineView = new ArrayList<>();
                 eachLineView.add(childView);
+
+
+                //判断是否超过行数限制
+                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                    break;
+                }
+                tempLine+=1;
             } else {
                 eachLineView.add(childView);
                 //如果不换行，累加每行的view宽度以及view间隙
@@ -214,8 +253,22 @@ public class FlowLayout extends ViewGroup {
             }
             if (i == (childCount - 1)) {
                 lineView.add(eachLineView);
+
+                //判断是否超过行数限制
+                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                    break;
+                }
+                tempLine+=1;
             }
 
+            if(getMaxNum()>0&&tempNum>=getMaxNum()){
+                /*因为有限制，所以需要提前结束并添加view*/
+                if(i != (childCount - 1)){
+                    lineView.add(eachLineView);
+                }
+                break;
+            }
+            tempNum+=1;
         }
         int mPaddingLeft = getPaddingLeft();
         int mPaddingTop = getPaddingTop();
@@ -280,8 +333,9 @@ public class FlowLayout extends ViewGroup {
         if (maxNum < 0) {
             maxNum = 0;
         }
-        if (this.maxNum != maxNum && maxNum > 0) {
+        if (this.maxNum != maxNum && maxNum >= 0) {
             this.maxNum = maxNum;
+            requestLayout();
         }
     }
 
@@ -296,8 +350,9 @@ public class FlowLayout extends ViewGroup {
         if (maxLine < 0) {
             maxLine = 0;
         }
-        if (this.maxLine != maxLine && maxLine > 0) {
+        if (this.maxLine != maxLine && maxLine >= 0) {
             this.maxLine = maxLine;
+            requestLayout();
         }
     }
 

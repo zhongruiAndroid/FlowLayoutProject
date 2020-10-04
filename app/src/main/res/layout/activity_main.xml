@@ -133,7 +133,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -153,7 +153,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -250,7 +250,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -272,7 +272,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
         android:gravity="center_vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -309,4 +309,59 @@
             android:thumbTint="#FF40CFFF"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="3dp"
+        >
+        <TextView
+            android:id="@+id/tvMaxNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示最大数量"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbMaxNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            android:max="20"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="3dp"
+        >
+        <TextView
+            android:id="@+id/tvMaxLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示最大行数"
+            android:ems="9"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbMaxLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumbTint="#FF40CFFF"
+            android:max="5"
+            />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btReAddView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="注意:更改最大数量和行数限制之后,需要重新addview"
+        />
 </LinearLayout>

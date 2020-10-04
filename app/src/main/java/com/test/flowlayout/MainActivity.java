@@ -1,16 +1,21 @@
 package com.test.flowlayout;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.github.flowview.FlowLayout;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
+    private View btReAddView;
     private FlowLayout flView;
     private AppCompatSeekBar sbHGap;
     private AppCompatSeekBar sbVGap;
@@ -23,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private AppCompatSeekBar sbTop;
     private AppCompatSeekBar sbRight;
     private AppCompatSeekBar sbBottom;
+    private AppCompatSeekBar sbMaxNum;
+    private AppCompatSeekBar sbMaxLine;
+
+
+    private TextView tvMaxNum;
+    private TextView tvMaxLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,32 +49,32 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rbLeft:
                         flView.setGravity(FlowLayout.gravity_left);
-                    break;
+                        break;
                     case R.id.rbRight:
                         flView.setGravity(FlowLayout.gravity_right);
-                    break;
+                        break;
                     case R.id.rbCenter:
                         flView.setGravity(FlowLayout.gravity_center);
-                    break;
+                        break;
                 }
             }
         });
         rg2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rbTop:
                         flView.setGravityVertical(FlowLayout.gravity_top);
-                    break;
+                        break;
                     case R.id.rbBottom:
                         flView.setGravityVertical(FlowLayout.gravity_bottom);
-                    break;
+                        break;
                     case R.id.rbCenterVertical:
                         flView.setGravityVertical(FlowLayout.gravity_center);
-                    break;
+                        break;
                 }
             }
         });
@@ -82,9 +93,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         sbRight.setOnSeekBarChangeListener(this);
         sbBottom.setOnSeekBarChangeListener(this);
 
+        sbMaxNum.setOnSeekBarChangeListener(this);
+        sbMaxLine.setOnSeekBarChangeListener(this);
+
     }
 
     private void initView() {
+        btReAddView = findViewById(R.id.btReAddView);
         sbHGap = findViewById(R.id.sbHGap);
         sbVGap = findViewById(R.id.sbVGap);
         rg = findViewById(R.id.rg);
@@ -96,33 +111,79 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         sbTop = findViewById(R.id.sbTop);
         sbRight = findViewById(R.id.sbRight);
         sbBottom = findViewById(R.id.sbBottom);
+        sbMaxNum = findViewById(R.id.sbMaxNum);
+        sbMaxLine = findViewById(R.id.sbMaxLine);
+        tvMaxNum = findViewById(R.id.tvMaxNum);
+        tvMaxLine = findViewById(R.id.tvMaxLine);
+
+        addView();
+
+    }
+
+    private String[] str = {
+            "android",
+            "ios",
+            "java",
+            "php",
+            "swift",
+            "python",
+            "C#",
+            "C++",
+            ".Net",
+            "SQLServer",
+            "Oracle",
+            "android studio",
+            "eclipse",
+            "ide",
+            "sublime"
+    };
+
+    private void addView() {
+        flView.removeAllViews();
+        int size=str.length;
+        for (int i = 0; i < size; i++) {
+            TextView textView = new TextView(this);
+            textView.setBackgroundResource(R.drawable.viewbg);
+            textView.setText(str[i]);
+            flView.addView(textView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (Resources.getSystem().getDisplayMetrics().density*24)));
+        }
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        int left=flView.getPaddingLeft();
-        int top=flView.getPaddingTop();
-        int right=flView.getPaddingRight();
-        int bottom=flView.getPaddingBottom();
-        switch (seekBar.getId()){
+        int left = flView.getPaddingLeft();
+        int top = flView.getPaddingTop();
+        int right = flView.getPaddingRight();
+        int bottom = flView.getPaddingBottom();
+        switch (seekBar.getId()) {
             case R.id.sbHGap:
                 flView.setHGap(dp2px(progress));
-            break;
+                break;
             case R.id.sbVGap:
                 flView.setVGap(dp2px(progress));
-            break;
+                break;
             case R.id.sbLeft:
-                flView.setPadding(dp2px(progress),top,right,bottom);
-            break;
+                flView.setPadding(dp2px(progress), top, right, bottom);
+                break;
             case R.id.sbTop:
-                flView.setPadding(left,dp2px(progress),right,bottom);
-            break;
+                flView.setPadding(left, dp2px(progress), right, bottom);
+                break;
             case R.id.sbRight:
-                flView.setPadding(left,top,dp2px(progress),bottom);
-            break;
+                flView.setPadding(left, top, dp2px(progress), bottom);
+                break;
             case R.id.sbBottom:
-                flView.setPadding(left,top,right,dp2px(progress));
-            break;
+                flView.setPadding(left, top, right, dp2px(progress));
+                break;
+            case R.id.sbMaxNum:
+                flView.setMaxNum(progress);
+                tvMaxNum.setText("显示最大数量" + progress);
+                addView();
+                break;
+            case R.id.sbMaxLine:
+                flView.setMaxLine(progress);
+                tvMaxLine.setText("显示最大行数" + progress);
+                addView();
+                break;
         }
     }
 
@@ -136,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     }
 
-    private int dp2px(int dp){
+    private int dp2px(int dp) {
         return dp;//(int) (getResources().getDisplayMetrics().density*dp);
     }
 }
