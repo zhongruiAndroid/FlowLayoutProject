@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private RadioButton rbRight;
     private RadioButton rbCenter;
     private RadioButton rbAlign;
+    private RadioButton rbAlignIgnoreLastLine;
     private AppCompatSeekBar sbLeft;
     private AppCompatSeekBar sbTop;
     private AppCompatSeekBar sbRight;
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                         break;
                     case R.id.rbAlign:
                         flView.setGravity(FlowLayout.gravity_left_right_align);
+                        break;
+                    case R.id.rbAlignIgnoreLastLine:
+                        flView.setGravity(FlowLayout.gravity_left_right_align_ignore_last_line);
                         break;
                 }
             }
@@ -113,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         rbRight = findViewById(R.id.rbRight);
         rbCenter = findViewById(R.id.rbCenter);
         rbAlign = findViewById(R.id.rbAlign);
+        rbAlignIgnoreLastLine = findViewById(R.id.rbAlignIgnoreLastLine);
         sbLeft = findViewById(R.id.sbLeft);
         sbTop = findViewById(R.id.sbTop);
         sbRight = findViewById(R.id.sbRight);

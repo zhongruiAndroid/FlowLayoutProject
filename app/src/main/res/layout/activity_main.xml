@@ -167,11 +167,12 @@
             android:thumbTint="#FF40CFFF"
             />
     </LinearLayout>
+
     <RadioGroup
         android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_vertical"
         >
         <RadioButton
@@ -198,6 +199,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="leftRightAlign"
+            />
+        <RadioButton
+            android:id="@+id/rbAlignIgnoreLastLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="leftRightAlignIgnoreLastLine"
             />
     </RadioGroup>
     <RadioGroup

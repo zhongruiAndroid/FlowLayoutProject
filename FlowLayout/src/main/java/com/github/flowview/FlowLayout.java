@@ -39,7 +39,7 @@ public class FlowLayout extends ViewGroup {
     public static final int gravity_left_right_align_ignore_last_line = 4;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({gravity_left, gravity_center, gravity_right, gravity_left_right_align})
+    @IntDef({gravity_left, gravity_center, gravity_right, gravity_left_right_align,gravity_left_right_align_ignore_last_line})
     private @interface gravity_type {
     }
 
@@ -233,7 +233,9 @@ public class FlowLayout extends ViewGroup {
                 heightMode == MeasureSpec.EXACTLY ? heightSize : resultHeight);
     }
 
-
+    private boolean isAlignGravity(){
+        return getGravity() == gravity_left_right_align||getGravity() == gravity_left_right_align_ignore_last_line;
+    }
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int measuredWidth = getMeasuredWidth();
@@ -242,7 +244,7 @@ public class FlowLayout extends ViewGroup {
         int leftLocation = 0;
         int topLocation = 0;
         int lineCount = lineView.size();
-        boolean isLeftRightAlign = (getGravity() == gravity_left_right_align);
+        boolean isLeftRightAlign =isAlignGravity();
         for (int i = 0; i < lineCount; i++) {
             int lineMaxHeight = eachLineHeight.get(i);
             List<View> lineViews = lineView.get(i);
@@ -253,6 +255,10 @@ public class FlowLayout extends ViewGroup {
                     eachItemGap = 0;
                 } else {
                     eachItemGap = (measuredWidth-mPaddingLeft-getPaddingRight() - eachLineFreeWidth.get(i)) / (size - 1);
+                }
+
+                if(i==(lineCount-1)&&getGravity()==gravity_left_right_align_ignore_last_line){
+                    eachItemGap=getHGap();
                 }
                 if (eachItemGap < 0) {
                     eachItemGap = 0;
@@ -373,7 +379,12 @@ public class FlowLayout extends ViewGroup {
     }
 
     public FlowLayout setGravity(@gravity_type int gravity) {
-        if (gravity != gravity_left && gravity != gravity_center && gravity != gravity_right && gravity != gravity_left_right_align) {
+        if (gravity != gravity_left
+                && gravity != gravity_center
+                && gravity != gravity_right
+                && gravity != gravity_left_right_align
+                && gravity != gravity_left_right_align_ignore_last_line
+        ) {
             gravity = gravity_left;
         }
         if (this.gravity != gravity) {
