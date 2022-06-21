@@ -18,22 +18,28 @@ import java.util.List;
  *   created by zhongrui on 2019/5/27
  */
 public class FlowLayout extends ViewGroup {
+    /*每行的view列表*/
     private List<List<View>> lineView = new ArrayList<>();
 
     //每行第一个view的left坐标
     private List<Integer> eachLineLeft = new ArrayList<>();
 
-    //每行最大的view高度
+    //每行最大的view高度(不包括垂直间距)
     private List<Integer> eachLineHeight = new ArrayList<>();
+
+    //每行剩余宽度
+    private List<Integer> eachLineFreeWidth = new ArrayList<>();
 
     private int vGap;
     private int hGap;
     public static final int gravity_left = 0;
     public static final int gravity_center = 1;
     public static final int gravity_right = 2;
+    public static final int gravity_left_right_align = 3;
+    public static final int gravity_left_right_align_ignore_last_line = 4;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({gravity_left, gravity_center, gravity_right})
+    @IntDef({gravity_left, gravity_center, gravity_right, gravity_left_right_align})
     private @interface gravity_type {
     }
 
@@ -80,9 +86,12 @@ public class FlowLayout extends ViewGroup {
         typedArray.recycle();
     }
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        eachLineFreeWidth.clear();
+        lineView.clear();
         eachLineLeft.clear();
         eachLineHeight.clear();
 
@@ -97,6 +106,8 @@ public class FlowLayout extends ViewGroup {
         //子view内容高度
         int resultHeight = 0;
 
+        //每行子view总宽度
+        int eachViewTotalWidth = 0;
         //每行宽度
         int horizontalWidth = 0;
         //每行高度
@@ -104,9 +115,15 @@ public class FlowLayout extends ViewGroup {
 
         int childCount = getChildCount();
 
-        int lineWidth = widthSize - getPaddingLeft() - getPaddingRight();
-        int tempNum=1;
-        int tempLine=1;
+        /*保存每行view列表*/
+        List<View> eachLineView = new ArrayList<>();
+
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+
+        int lineWidth = widthSize - paddingLeft - paddingRight;
+        int tempNum = 1;
+        int tempLine = 1;
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() == View.GONE) {
@@ -123,35 +140,52 @@ public class FlowLayout extends ViewGroup {
 
             //换行
             if (horizontalWidth + childViewMeasuredWidth > lineWidth || lp.layout_new_line) {
+                /*每行view的数量*/
+                lineView.add(eachLineView);
+
+                eachLineView = new ArrayList<>();
+                eachLineView.add(childView);
+
+                int free = lineWidth - (horizontalWidth - getHGap());
                 //记录每行的left距离
-                int left = (int) ((lineWidth - (horizontalWidth - getHGap())) * getHorizontalOffsetScale());
+                int left = (int) (free * getHorizontalOffsetScale());
+
+                eachLineFreeWidth.add(eachViewTotalWidth);
+
                 eachLineLeft.add(left);
 
                 //获取最大宽度的一行
                 resultWidth = Math.max(resultWidth, horizontalWidth);
                 //如果换行，从第下一行开始计算每行宽度
                 horizontalWidth = childViewMeasuredWidth + getHGap();
+                eachViewTotalWidth = childViewMeasuredWidth;
+
 
                 resultHeight += verticalHeight;
                 //记录换行时上行最大的view高度
                 eachLineHeight.add(verticalHeight);
 
                 //换行后保存下一行的view高度
-                verticalHeight = childViewMeasuredHeight + getVGap();
+                verticalHeight = childViewMeasuredHeight;
 
 
                 //判断是否超过行数限制
-                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                if (getMaxLine() > 0 && tempLine >= getMaxLine()) {
                     break;
                 }
-                tempLine+=1;
+                tempLine += 1;
             } else {
+                eachLineView.add(childView);
                 //如果不换行，累加每行的view宽度以及view间隙
                 horizontalWidth = horizontalWidth + childViewMeasuredWidth + getHGap();
+                eachViewTotalWidth = eachViewTotalWidth + childViewMeasuredWidth;
                 //如果不换行，计算每行最高view的高度
-                verticalHeight = Math.max(verticalHeight, childViewMeasuredHeight + getVGap());
+                verticalHeight = Math.max(verticalHeight, childViewMeasuredHeight);
             }
             if (i == (childCount - 1)) {
+                lineView.add(eachLineView);
+
+                eachLineFreeWidth.add(eachViewTotalWidth);
 
                 //记录每行的left距离
                 int left = (int) ((lineWidth - (horizontalWidth - getHGap())) * getHorizontalOffsetScale());
@@ -161,19 +195,21 @@ public class FlowLayout extends ViewGroup {
 
                 //最后需要减去多余的一个间隙
                 resultWidth = Math.max(resultWidth, horizontalWidth) - getHGap();
-                resultHeight = resultHeight + verticalHeight - getVGap();
+                resultHeight = resultHeight + verticalHeight;
 
                 //判断是否超过行数限制
-                if(getMaxLine()>0&&tempLine>=getMaxLine()){
+                if (getMaxLine() > 0 && tempLine >= getMaxLine()) {
                     break;
                 }
-                tempLine+=1;
+                tempLine += 1;
             }
 
 
-            if(getMaxNum()>0&&tempNum>=getMaxNum()){
+            if (getMaxNum() > 0 && tempNum >= getMaxNum()) {
                 /*因为有限制，所以需要提前结束并添加view*/
-                if(i != (childCount - 1)){
+                if (i != (childCount - 1)) {
+                    lineView.add(eachLineView);
+                    eachLineFreeWidth.add(eachViewTotalWidth);
                     //记录每行的left距离
                     int left = (int) ((lineWidth - (horizontalWidth - getHGap())) * getHorizontalOffsetScale());
                     eachLineLeft.add(left);
@@ -182,15 +218,15 @@ public class FlowLayout extends ViewGroup {
 
                     //最后需要减去多余的一个间隙
                     resultWidth = Math.max(resultWidth, horizontalWidth) - getHGap();
-                    resultHeight = resultHeight + verticalHeight - getVGap();
+                    resultHeight = resultHeight + verticalHeight;
                 }
                 break;
             }
-            tempNum+=1;
+            tempNum += 1;
         }
 
-        resultWidth = resultWidth + getPaddingLeft() + getPaddingRight();
-        resultHeight = resultHeight + getPaddingTop() + getPaddingBottom();
+        resultWidth = resultWidth + paddingLeft + paddingRight;
+        resultHeight = resultHeight + getPaddingTop() + getPaddingBottom()+(lineView.size()-1)*getVGap();
 
         setMeasuredDimension(
                 widthMode == MeasureSpec.EXACTLY ? widthSize : resultWidth,
@@ -200,86 +236,31 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        lineView.clear();
-
-        //每行宽度
-        int horizontalWidth = 0;
-        //每行高度
-        int verticalHeight = 0;
-
-        List<View> eachLineView = new ArrayList<>();
-
-        int lineWidth = getWidth() - getPaddingLeft() - getPaddingRight();
-
-        int childCount = getChildCount();
-
-        int tempNum=1;
-        int tempLine=1;
-        for (int i = 0; i < childCount; i++) {
-            View childView = getChildAt(i);
-            if (childView.getVisibility() == View.GONE) {
-                continue;
-            }
-            LayoutParams lp = (LayoutParams) childView.getLayoutParams();
-
-            //子view所占的宽度
-            int childViewMeasuredWidth = childView.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
-            //子view所占的高度
-            int childViewMeasuredHeight = childView.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
-
-            if (horizontalWidth + childViewMeasuredWidth > lineWidth || lp.layout_new_line) {
-                //换行
-                lineView.add(eachLineView);
-                //如果换行，从第下一行开始计算每行宽度
-                horizontalWidth = childViewMeasuredWidth + getHGap();
-
-                //如果换行,保存下一行的view高度
-                verticalHeight = childViewMeasuredHeight + getVGap();
-                eachLineView = new ArrayList<>();
-                eachLineView.add(childView);
-
-
-                //判断是否超过行数限制
-                if(getMaxLine()>0&&tempLine>=getMaxLine()){
-                    break;
-                }
-                tempLine+=1;
-            } else {
-                eachLineView.add(childView);
-                //如果不换行，累加每行的view宽度以及view间隙
-                horizontalWidth = horizontalWidth + childViewMeasuredWidth + getHGap();
-                //如果不换行，计算每行最高view的高度
-                verticalHeight = Math.max(verticalHeight, childViewMeasuredHeight + getVGap());
-            }
-            if (i == (childCount - 1)) {
-                lineView.add(eachLineView);
-
-                //判断是否超过行数限制
-                if(getMaxLine()>0&&tempLine>=getMaxLine()){
-                    break;
-                }
-                tempLine+=1;
-            }
-
-            if(getMaxNum()>0&&tempNum>=getMaxNum()){
-                /*因为有限制，所以需要提前结束并添加view*/
-                if(i != (childCount - 1)){
-                    lineView.add(eachLineView);
-                }
-                break;
-            }
-            tempNum+=1;
-        }
+        int measuredWidth = getMeasuredWidth();
         int mPaddingLeft = getPaddingLeft();
         int mPaddingTop = getPaddingTop();
         int leftLocation = 0;
         int topLocation = 0;
         int lineCount = lineView.size();
+        boolean isLeftRightAlign = (getGravity() == gravity_left_right_align);
         for (int i = 0; i < lineCount; i++) {
-            leftLocation = eachLineLeft.get(i);
             int lineMaxHeight = eachLineHeight.get(i);
             List<View> lineViews = lineView.get(i);
             int size = lineViews.size();
+            int eachItemGap = 0;
+            if (isLeftRightAlign) {
+                if (size <= 1) {
+                    eachItemGap = 0;
+                } else {
+                    eachItemGap = (measuredWidth-mPaddingLeft-getPaddingRight() - eachLineFreeWidth.get(i)) / (size - 1);
+                }
+                if (eachItemGap < 0) {
+                    eachItemGap = 0;
+                }
+                leftLocation = 0;
+            } else {
+                leftLocation = eachLineLeft.get(i);
+            }
             for (int j = 0; j < size; j++) {
                 View childView = lineViews.get(j);
                 if (childView.getVisibility() == View.GONE) {
@@ -290,23 +271,24 @@ public class FlowLayout extends ViewGroup {
 
                 int topOffset = 0;
                 //只有某行的view高度低于那行最大高度时才设置偏移
-                if (childHeight < lineMaxHeight - getVGap()) {
-                    topOffset = (int) ((lineMaxHeight - getVGap() - childHeight) * getVerticalOffsetScale());
+                if (childHeight < lineMaxHeight) {
+                    topOffset = (int) ((lineMaxHeight - childHeight) * getVerticalOffsetScale());
                 }
                 LayoutParams lp = (LayoutParams) childView.getLayoutParams();
                 childView.layout(
-                        mPaddingLeft + leftLocation + +lp.leftMargin,
+                        mPaddingLeft + leftLocation + lp.leftMargin,
                         mPaddingTop + topLocation + lp.topMargin + topOffset,
-                        mPaddingLeft + leftLocation + +lp.leftMargin + childWidth,
+                        mPaddingLeft + leftLocation + lp.leftMargin + childWidth,
                         mPaddingTop + topLocation + lp.topMargin + childHeight + topOffset);
-
-                leftLocation += childWidth + lp.leftMargin + lp.rightMargin + getHGap();
+                if (isLeftRightAlign) {
+                    leftLocation += childWidth + lp.leftMargin + lp.rightMargin + eachItemGap;
+                } else {
+                    leftLocation += childWidth + lp.leftMargin + lp.rightMargin + getHGap();
+                }
             }
-            topLocation += lineMaxHeight;
+            topLocation += (lineMaxHeight + getVGap());
         }
 
-
-        eachLineView = null;
     }
 
     private float getHorizontalOffsetScale() {
@@ -391,7 +373,7 @@ public class FlowLayout extends ViewGroup {
     }
 
     public FlowLayout setGravity(@gravity_type int gravity) {
-        if (gravity != gravity_left && gravity != gravity_center && gravity != gravity_right) {
+        if (gravity != gravity_left && gravity != gravity_center && gravity != gravity_right && gravity != gravity_left_right_align) {
             gravity = gravity_left;
         }
         if (this.gravity != gravity) {

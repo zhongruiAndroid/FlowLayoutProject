@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private RadioButton rbLeft;
     private RadioButton rbRight;
     private RadioButton rbCenter;
+    private RadioButton rbAlign;
     private AppCompatSeekBar sbLeft;
     private AppCompatSeekBar sbTop;
     private AppCompatSeekBar sbRight;
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                         break;
                     case R.id.rbCenter:
                         flView.setGravity(FlowLayout.gravity_center);
+                        break;
+                    case R.id.rbAlign:
+                        flView.setGravity(FlowLayout.gravity_left_right_align);
                         break;
                 }
             }
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         rbLeft = findViewById(R.id.rbLeft);
         rbRight = findViewById(R.id.rbRight);
         rbCenter = findViewById(R.id.rbCenter);
+        rbAlign = findViewById(R.id.rbAlign);
         sbLeft = findViewById(R.id.sbLeft);
         sbTop = findViewById(R.id.sbTop);
         sbRight = findViewById(R.id.sbRight);
@@ -145,7 +151,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             TextView textView = new TextView(this);
             textView.setBackgroundResource(R.drawable.viewbg);
             textView.setText(str[i]);
-            flView.addView(textView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (Resources.getSystem().getDisplayMetrics().density*24)));
+            if(i==9){
+                textView.setGravity(Gravity.CENTER);
+                flView.addView(textView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (Resources.getSystem().getDisplayMetrics().density*38)));
+            }else{
+                flView.addView(textView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) (Resources.getSystem().getDisplayMetrics().density*24)));
+            }
         }
     }
 

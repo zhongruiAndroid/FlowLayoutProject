@@ -9,6 +9,8 @@
             <enum name="left" value="0"></enum>
             <enum name="center" value="1"></enum>
             <enum name="right" value="2"></enum>
+            <enum name="leftRightAlign" value="3"></enum>
+            <enum name="leftRightAlignIgnoreLastLine" value="4"></enum>
         </attr>
         <attr name="gravity_vertical" format="enum">
             <enum name="top" value="0"></enum>

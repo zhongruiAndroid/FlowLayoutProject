@@ -193,6 +193,12 @@
             android:layout_height="wrap_content"
             android:text="center_horizontal"
             />
+        <RadioButton
+            android:id="@+id/rbAlign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="leftRightAlign"
+            />
     </RadioGroup>
     <RadioGroup
         android:id="@+id/rg2"
